@@ -1,0 +1,47 @@
+UPS HACKATHON - JUDGE EVALUATION CHEAT SHEET
+(Memorize these talking points to score maximum points on the rubric!)
+
+-------------------------------------------------------------------------
+1. SOLUTION APPROACH & ARCHITECTURE
+-------------------------------------------------------------------------
+How to answer:
+"We chose a decoupled, modern architecture. The frontend is a React Single Page Application (SPA) separated entirely from the Node.js/Express backend. This ensures scalability because the frontend and backend can be scaled independently. For resilience and portability, our backend is fully containerized using Docker, meaning it can run anywhere from a developer's laptop to an enterprise Kubernetes cluster."
+
+-------------------------------------------------------------------------
+2. DATABASE & DATA MODELING
+-------------------------------------------------------------------------
+How to answer:
+"We used Prisma ORM to ensure strict data integrity. Our relational model enforces foreign key constraints between Customers, Invoices, and Payments, ensuring no orphaned data. For privacy and governance, no plain-text passwords exist—everything is cryptographically hashed using bcrypt before it ever touches the database."
+
+-------------------------------------------------------------------------
+3. MICROSERVICES & API DESIGN
+-------------------------------------------------------------------------
+How to answer:
+"We followed RESTful API standards with strict service boundaries (Auth, Finance, Invoices). To ensure loose coupling and enterprise integration, we built a dedicated, versioned B2B endpoint (/api/v1/external) protected by API Keys. This allows external systems like SAP or QuickBooks to securely push invoices into our system without bypassing our business logic."
+
+-------------------------------------------------------------------------
+4. CLOUD ARCHITECTURE
+-------------------------------------------------------------------------
+How to answer:
+"Our cloud strategy optimizes for both performance and cost. The frontend is edge-deployed on Vercel for zero-latency global delivery. The backend is deployed on Render as a managed service, allowing for elastic scaling based on API traffic. By utilizing this serverless and managed architecture, we achieve high availability with zero infrastructure maintenance."
+
+-------------------------------------------------------------------------
+5. DEVOPS & OPERATIONAL READINESS
+-------------------------------------------------------------------------
+How to answer:
+"We implemented full CI/CD (Continuous Integration / Continuous Deployment). The moment code is pushed to our GitHub 'main' branch, Vercel automatically detects the commit, runs a strict TypeScript build check, and deploys the release. Furthermore, our backend includes a Dockerfile, making it operationally ready for any standard CI/CD pipeline."
+
+-------------------------------------------------------------------------
+6. GEN-AI USE CASE RELEVANCE
+-------------------------------------------------------------------------
+How to answer:
+"We didn't just build a chatbot. We built an AI-driven 'Behavioral Collection Engine' using Groq's high-speed inference models. The clear business reason to use GenAI here is personalization: the AI analyzes the customer's specific invoice history and dynamically generates realistic, tailored payment plans. Evidence shows that giving struggling customers personalized payment options significantly increases the probability of revenue recovery compared to standard overdue notices."
+
+-------------------------------------------------------------------------
+7. SECURITY & GOVERNANCE
+-------------------------------------------------------------------------
+How to answer:
+"Security is built into every layer.
+1. Privacy & Access: We implemented strict Role-Based Access Control (RBAC) and JWT session tokens. A customer cannot query another company's data.
+2. Payments: We integrated the Stripe SDK, meaning raw credit card numbers are tokenized in the browser and never touch our servers (PCI Compliance).
+3. Hallucination Control: Our AI is constrained by strict System Prompts that force it to only respond with JSON formatting regarding invoices, preventing it from hallucinating or answering non-business questions."
