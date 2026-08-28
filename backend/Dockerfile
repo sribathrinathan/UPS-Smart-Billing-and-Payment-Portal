@@ -15,8 +15,7 @@ RUN npx prisma generate
 # Bundle app source
 COPY . .
 
-# Build TypeScript
-RUN npm run build
+# (No build step needed for tsx)
 
 # Expose port
 EXPOSE 4000
