@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:4000/api', // local backend
+  baseURL: import.meta.env.VITE_API_URL || 'https://ups-smart-billing-and-payment-portal.onrender.com/api', // local backend or production
 });
 
 api.interceptors.request.use((config) => {
