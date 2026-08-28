@@ -1,0 +1,81 @@
+================================================================================
+                    HACKATHON PITCH SCRIPT & TALKING POINTS
+                    (Target Audience: HR & Business Judges)
+================================================================================
+
+HOW TO USE THIS SHEET: 
+Read or adapt these exact phrases during your presentation. They are specifically 
+designed to hit every single point on the judge's rubric using high-impact 
+business and technical vocabulary.
+
+--------------------------------------------------------------------------------
+1. BUSINESS UNDERSTANDING (The Hook)
+--------------------------------------------------------------------------------
+"For our project, we didn't just want to build a standard dashboard. We looked 
+at a core business problem logistics companies like UPS face every day: 
+predicting cash flow and minimizing Days Sales Outstanding (DSO). 
+
+Every day an invoice goes unpaid, it costs the business money. We built a Smart 
+Billing platform that solves this for two distinct stakeholders: the Finance Team 
+who needs to predict and collect revenue, and the Customer who needs a frictionless 
+way to pay."
+
+--------------------------------------------------------------------------------
+2. DESIGN THINKING & CUSTOMER EXPERIENCE (The UX)
+--------------------------------------------------------------------------------
+"From a design thinking perspective, we focused entirely on reducing friction. 
+Nobody wants to navigate clunky enterprise tables to figure out what they owe. 
+So, we built a mobile-first, highly accessible UI with a custom AI Copilot. 
+
+If a customer is on their phone, they can simply open the app, open our custom 
+mobile drawer menu, and ask the AI in plain English: 'What is my outstanding 
+balance?' The AI understands their context and instantly serves the data. We 
+brought a premium consumer experience into B2B finance."
+
+--------------------------------------------------------------------------------
+3. INNOVATION & CREATIVITY (The Differentiator)
+--------------------------------------------------------------------------------
+"Our key differentiator is that we aren't just using AI as a basic chatbot. 
+We built 'Personalization Engines'. 
+
+Instead of treating every late customer the exact same way, our backend AI analyzes 
+a customer's risk profile. If they are a low-risk loyal customer, the engine 
+recommends a gentle nudge. If they are high-risk, the AI automatically drafts an 
+urgent collection email. Furthermore, for customers struggling to pay, our AI 
+dynamically generates a personalized installment plan tailored to their specific 
+revenue cycle, rather than forcing a rigid 50/50 split."
+
+--------------------------------------------------------------------------------
+4. THE DEMO STORY (Walk them through the app)
+--------------------------------------------------------------------------------
+[Action: Show Finance Dashboard]
+"Let me walk you through the logical story. Here on the Finance Dashboard, our 
+14-Day predictive algorithm flags that we are going to have a cash shortfall 
+next week because ABC Tech is high-risk."
+
+[Action: Switch to Customer Dashboard]
+"Now, we switch to the ABC Tech customer view. They log in and see they owe money. 
+Instead of defaulting, they click our AI Payment Plan button. The system 
+automatically generates a dynamic installment plan they can actually afford, 
+secured by our Stripe integration. The crisis is averted, and UPS secures the cash."
+
+--------------------------------------------------------------------------------
+5. CLOUD-NATIVE ARCHITECTURE (The Technical Flex)
+--------------------------------------------------------------------------------
+"To prove this isn't just a prototype, we engineered this with an API-driven, 
+cloud-native architecture. 
+- Our backend is containerized in a Docker image.
+- Our frontend is configured for edge-deployment on Vercel. 
+- We built a secure, B2B API endpoint protected by API Keys so external systems 
+  like SAP or QuickBooks can seamlessly integrate with us. 
+- And we secured all user accounts with bcrypt-hashed passwords and JWTs."
+
+--------------------------------------------------------------------------------
+6. TEAMWORK (Conclusion)
+--------------------------------------------------------------------------------
+"This architecture required our team to take total ownership across the stack—
+from the React frontend to the Prisma SQLite database, to integrating the Groq 
+LLaMA AI models. We adapted quickly to API limits, collaborated seamlessly, 
+and built a solution that is evidence-based and enterprise-ready. 
+
+Thank you, and we are happy to take any questions!"

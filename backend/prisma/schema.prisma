@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+  // For Vercel Postgres deployment, uncomment the following line and change provider:
+  // provider = "postgresql"
+  // url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  passwordHash  String
+  role          String   // CUSTOMER, FINANCE, ADMIN
+  customerId    String?  // nullable, linked to Customer if role is CUSTOMER
+  customer      Customer? @relation(fields: [customerId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  auditLogs     AuditLog[]
+}
+
+model Customer {
+  id                  String   @id @default(uuid())
+  customerCode        String   @unique
+  companyName         String
+  contactName         String
+  email               String
+  phone               String
+  billingAddress      String
+  country             String
+  billingHealthScore  Int      @default(100)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  users               User[]
+  shipments           Shipment[]
+  invoices            Invoice[]
+  payments            Payment[]
+  billingHealthScores BillingHealthScore[]
+  apiKeys             ApiKey[]
+}
+
+model Shipment {
+  id               String   @id @default(uuid())
+  trackingNumber   String   @unique
+  customerId       String
+  customer         Customer @relation(fields: [customerId], references: [id])
+  origin           String
+  destination      String
+  shipmentDate     DateTime
+  deliveryDate     DateTime?
+  serviceType      String
+  weight           Float
+  length           Float?
+  width            Float?
+  height           Float?
+  shipmentStatus   String
+  estimatedCost    Float?
+  actualCost       Float?
+  createdAt        DateTime @default(now())
+  
+  invoices         InvoiceShipment[]
+  billingAnomalies BillingAnomaly[]
+}
+
+model Invoice {
+  id                  String   @id @default(uuid())
+  invoiceNumber       String   @unique
+  customerId          String
+  customer            Customer @relation(fields: [customerId], references: [id])
+  invoiceDate         DateTime
+  dueDate             DateTime
+  subtotal            Float
+  fuelSurcharge       Float
+  customsAmount       Float
+  brokerageAmount     Float
+  handlingAmount      Float
+  additionalCharges   Float
+  discount            Float    @default(0)
+  tax                 Float
+  totalAmount         Float
+  paidAmount          Float    @default(0)
+  outstandingAmount   Float
+  status              String   // PAID, PENDING, OVERDUE, PARTIALLY_PAID, PROCESSING, FAILED
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  shipments           InvoiceShipment[]
+  lineItems           InvoiceLineItem[]
+  payments            Payment[]
+  paymentReconciliations PaymentReconciliation[]
+  billingAnomalies    BillingAnomaly[]
+  riskPredictions     PaymentRiskPrediction[]
+}
+
+model InvoiceShipment {
+  id         String   @id @default(uuid())
+  invoiceId  String
+  invoice    Invoice  @relation(fields: [invoiceId], references: [id])
+  shipmentId String
+  shipment   Shipment @relation(fields: [shipmentId], references: [id])
+}
+
+model InvoiceLineItem {
+  id          String  @id @default(uuid())
+  invoiceId   String
+  invoice     Invoice @relation(fields: [invoiceId], references: [id])
+  description String
+  category    String
+  quantity    Int     @default(1)
+  unitPrice   Float
+  amount      Float
+}
+
+model Payment {
+  id                   String   @id @default(uuid())
+  invoiceId            String
+  invoice              Invoice  @relation(fields: [invoiceId], references: [id])
+  customerId           String
+  customer             Customer @relation(fields: [customerId], references: [id])
+  amount               Float
+  paymentMethod        String
+  transactionReference String?
+  status               String   // SUCCESS, PENDING, FAILED
+  paidAt               DateTime?
+  createdAt            DateTime @default(now())
+
+  reconciliations      PaymentReconciliation[]
+}
+
+model PaymentReconciliation {
+  id             String   @id @default(uuid())
+  paymentId      String
+  payment        Payment  @relation(fields: [paymentId], references: [id])
+  invoiceId      String
+  invoice        Invoice  @relation(fields: [invoiceId], references: [id])
+  confidenceScore Float
+  matchReason    String?
+  status         String   // AUTOMATIC, MANUAL_APPROVED, REJECTED
+  reviewedBy     String?
+  reviewedAt     DateTime?
+}
+
+model BillingAnomaly {
+  id            String   @id @default(uuid())
+  invoiceId     String
+  invoice       Invoice  @relation(fields: [invoiceId], references: [id])
+  shipmentId    String?
+  shipment      Shipment? @relation(fields: [shipmentId], references: [id])
+  anomalyType   String
+  expectedValue Float
+  actualValue   Float
+  deviation     Float
+  severity      String   // HIGH, MEDIUM, LOW
+  explanation   String
+  status        String   // PENDING, RESOLVED
+  createdAt     DateTime @default(now())
+  resolvedAt    DateTime?
+}
+
+model PaymentRiskPrediction {
+  id           String   @id @default(uuid())
+  invoiceId    String
+  invoice      Invoice  @relation(fields: [invoiceId], references: [id])
+  riskScore    Float
+  riskLevel    String   // HIGH, MEDIUM, LOW
+  factorsJson  String   // JSON string in sqlite, Json in postgres
+  modelVersion String
+  createdAt    DateTime @default(now())
+}
+
+model BillingHealthScore {
+  id                 String   @id @default(uuid())
+  customerId         String
+  customer           Customer @relation(fields: [customerId], references: [id])
+  score              Int
+  paymentReliability Int
+  disputeScore       Int
+  outstandingScore   Int
+  consistencyScore   Int
+  createdAt          DateTime @default(now())
+}
+
+model AuditLog {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  action       String
+  entityType   String
+  entityId     String
+  metadataJson String   // JSON string
+  createdAt    DateTime @default(now())
+}
+
+model ApiKey {
+  id         String    @id @default(uuid())
+  key        String    @unique
+  name       String
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime?
+}

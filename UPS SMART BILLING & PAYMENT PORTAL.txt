@@ -1,0 +1,2044 @@
+UPS SMART BILLING & PAYMENT PORTAL
+COMPLETE PROJECT DEVELOPMENT SPECIFICATION
+============================================================
+
+PURPOSE
+-------
+This document is the complete product and technical specification for building
+the UPS Smart Billing & Payment Portal hackathon project.
+
+IMPORTANT:
+- Build a complete, working full-stack application, not just a UI mockup.
+- The mandatory problem-statement features must work first.
+- AI is encouraged by the problem statement but is NOT mandatory.
+- AI should be used only where it adds meaningful business value.
+- The project should feel specific to UPS and logistics billing rather than a
+  generic invoice CRUD application.
+- Use realistic demo data and clearly label simulated/sandbox functionality.
+- Do not claim that the application is an official UPS internal system.
+- Do not use real customer/payment data.
+
+============================================================
+1. PROBLEM STATEMENT
+============================================================
+
+COMPANY:
+United Parcel Service (UPS)
+
+USE CASE:
+Smart Billing & Payment Portal
+
+GOAL:
+For a logistics company, build a Smart Billing & Payment Portal that enables
+customers to view invoices, make payments, track payment status and receive
+billing insights.
+
+Finance users need a dashboard showing:
+- Total invoices
+- Paid invoices
+- Pending invoices
+- Overdue invoices
+- Collection summary
+- Revenue trend
+
+The problem statement encourages teams to leverage:
+- Artificial Intelligence and Generative AI
+- Conversational interfaces and chatbots
+- Predictive analytics
+- Personalization engines
+- Mobile-first experiences
+- Cloud-native architectures
+- API-driven integrations
+
+AI IS OPTIONAL:
+The application must remain useful and fully functional even if the AI layer
+is unavailable. Core billing, invoice, payment and finance workflows must be
+implemented using normal application/business logic.
+
+============================================================
+2. PRODUCT VISION
+============================================================
+
+Do NOT build only:
+"An invoice management website."
+
+Build:
+"An intelligent predictive billing platform for a logistics company that
+connects shipments to invoices, explains billing changes, predicts shipment
+costs, detects potential billing problems before invoice finalization, helps
+finance teams prioritize collections, and provides a billing-focused AI
+copilot."
+
+CORE IDEA:
+
+Traditional billing:
+Shipment -> Invoice -> Payment
+
+Proposed system:
+Shipment
+   ->
+Billing/Rate Engine
+   ->
+Validation + Analytics + AI
+   ->
+Invoice
+   ->
+Payment
+   ->
+Payment Reconciliation
+   ->
+Insights / Predictions / Recommended Actions
+
+============================================================
+3. PRIMARY USERS
+============================================================
+
+A. CUSTOMER
+
+Customers should be able to:
+- Log in
+- View dashboard
+- View invoices
+- Search invoices
+- Filter invoices
+- Sort invoices
+- Open invoice details
+- Download invoice PDF
+- Make payment
+- View payment history
+- Track payment status
+- View shipment details associated with an invoice
+- Understand individual invoice charges
+- Use "Explain My Bill"
+- Ask billing-related questions to AI
+- View predicted costs where applicable
+
+B. FINANCE USER
+
+Finance users should be able to:
+- Log in
+- View finance dashboard
+- View total invoices
+- View paid invoices
+- View pending invoices
+- View overdue invoices
+- View collection summary
+- View revenue trend
+- Search/filter invoices
+- View customer billing behaviour
+- View customer billing health
+- Prioritize collections
+- Review billing anomalies
+- Reconcile payments
+- View shipment-to-invoice relationships
+- Use AI Finance Copilot
+- View predictive analytics
+- Review potential disputes before invoice finalization
+
+============================================================
+4. REQUIRED CUSTOMER FEATURES
+============================================================
+
+4.1 CUSTOMER DASHBOARD
+
+Show:
+- Total outstanding amount
+- Total paid amount
+- Pending amount
+- Overdue amount
+- Number of invoices
+- Upcoming due invoices
+- Recent payments
+- Recent invoices
+
+Example:
+
+Welcome, ABC Logistics
+
+Outstanding:     Rs. 8,42,000
+Paid:             Rs. 24,60,000
+Pending:          Rs. 5,20,000
+Overdue:          Rs. 3,22,000
+
+Buttons:
+[View Invoices]
+[Make Payment]
+[Payment History]
+[Billing Insights]
+
+4.2 INVOICE LIST
+
+Each invoice row/card should show:
+- Invoice number
+- Invoice date
+- Due date
+- Customer
+- Total amount
+- Amount paid
+- Balance
+- Status
+
+Statuses:
+- PAID
+- PENDING
+- OVERDUE
+- PARTIALLY_PAID
+- PROCESSING
+- FAILED
+
+Features:
+- Search by invoice number
+- Search by customer
+- Search by tracking number
+- Filter by status
+- Filter by date
+- Filter by amount
+- Sort by date
+- Sort by amount
+- Sort by due date
+
+4.3 INVOICE DETAILS
+
+Display:
+- Invoice number
+- Invoice date
+- Due date
+- Customer
+- Billing address
+- Account number (use fake/demo account IDs)
+- Payment status
+- Total
+- Amount paid
+- Outstanding amount
+
+Shipment details:
+- Tracking number
+- Origin
+- Destination
+- Shipment date
+- Delivery date
+- Service type
+- Weight
+- Dimensions
+
+Charges:
+- Base transportation
+- Fuel surcharge
+- Customs/duties where applicable
+- Brokerage
+- Handling
+- Additional services
+- Taxes
+- Discounts where applicable
+
+Actions:
+- Download PDF
+- Pay now
+- Explain My Bill
+- View associated shipment(s)
+
+4.4 PDF INVOICE
+
+Generate a professional invoice PDF containing:
+- Application branding
+- Invoice number
+- Customer information
+- Invoice date
+- Due date
+- Shipment details
+- Charge breakdown
+- Tax
+- Total
+- Payment status
+
+Use a PDF library and generate the file dynamically.
+
+============================================================
+5. PAYMENT FEATURES
+============================================================
+
+Customers can:
+- Pay a single invoice
+- Optionally select multiple invoices
+- See payment amount
+- Confirm payment
+- Receive transaction/reference ID
+- View updated payment status
+- View payment history
+
+For a hackathon:
+- Use a payment sandbox/API if available and permitted.
+- Otherwise implement a realistic simulated payment flow.
+- Clearly mark simulated payments as DEMO/SANDBOX.
+- Never store real card numbers, CVVs or sensitive payment credentials.
+
+Payment flow:
+
+Invoice
+  ->
+Pay Now
+  ->
+Payment Summary
+  ->
+Confirm
+  ->
+Payment Gateway/Sandbox
+  ->
+Success/Failure
+  ->
+Update Invoice
+  ->
+Create Transaction
+  ->
+Payment History
+
+Payment table fields:
+- Payment ID
+- Invoice ID
+- Customer ID
+- Amount
+- Date/time
+- Method
+- Gateway/reference ID
+- Status
+
+============================================================
+6. PAYMENT RECONCILIATION
+============================================================
+
+Finance users need an intelligent payment matching feature.
+
+Input:
+Payment received:
+Rs. 4,82,500
+Reference:
+TXN938281
+
+Matching engine:
+   ->
+Invoice #INV9283
+Customer: ABC Corp
+Amount: Rs. 4,82,500
+Confidence: 96%
+
+Result:
+Automatically reconciled
+
+If multiple invoices match:
+
+INV9283  96%
+INV9271  72%
+INV9264  41%
+
+Finance user can manually approve/reject the match.
+
+Implement confidence scoring using deterministic rules first.
+AI can optionally enhance the matching later.
+
+============================================================
+7. FINANCE DASHBOARD
+============================================================
+
+Main KPI cards:
+
+- Total invoices
+- Total invoice value
+- Paid invoices
+- Paid amount
+- Pending invoices
+- Pending amount
+- Overdue invoices
+- Overdue amount
+- Collection rate
+
+Charts:
+- Revenue trend by month
+- Collections by month
+- Paid vs pending vs overdue
+- Revenue by service
+- Revenue by customer
+- Revenue by route
+- Domestic vs international revenue
+
+Tables:
+- Highest outstanding customers
+- Most overdue invoices
+- High-risk customers
+- Recent payments
+- Unreconciled payments
+- Potential billing anomalies
+
+Dashboard should have filters:
+- Date range
+- Customer
+- Service type
+- Domestic/international
+- Invoice status
+- Route
+
+============================================================
+8. SHIPMENT-TO-INVOICE INTELLIGENCE
+============================================================
+
+This should be one of the main differentiating features.
+
+Every invoice should be connected to one or more shipment records.
+
+Example:
+
+Invoice #UPS-92831
+Total: Rs. 84,520
+
+Shipment 1
+Tracking: 1Z999...
+Chennai -> New York
+Weight: 12.4 kg
+
+Shipment 2
+Tracking: 1Z888...
+Mumbai -> London
+Weight: 8.2 kg
+
+Shipment 3
+Tracking: 1Z777...
+Delhi -> Singapore
+Weight: 5.6 kg
+
+The customer should be able to click a shipment and see:
+- Tracking number
+- Origin
+- Destination
+- Weight
+- Dimensions
+- Service
+- Shipment date
+- Delivery status
+- Charges contributing to invoice
+
+This makes the billing system logistics-specific.
+
+============================================================
+9. "EXPLAIN MY BILL"
+============================================================
+
+Add a prominent button on invoice details:
+[Explain My Bill]
+
+The system compares the invoice with historical invoices.
+
+Example:
+
+July:
+Shipments: 420
+Fuel surcharge: Rs. 42K
+Customs: Rs. 21K
+Additional fees: Rs. 12K
+Total: Rs. 8.2L
+
+August:
+Shipments: 510
+Fuel surcharge: Rs. 57K
+Customs: Rs. 38K
+Additional fees: Rs. 19K
+Total: Rs. 10.1L
+
+AI/business logic response:
+
+"Your August bill increased by 23%.
+The primary contributors were a 21% increase in shipment volume and an
+increase in customs-related charges."
+
+The explanation should cite the actual data available in the application.
+
+============================================================
+10. AI BILLING ASSISTANT
+============================================================
+
+Create a billing-focused AI assistant.
+
+CUSTOMER EXAMPLES:
+- Why is my bill higher this month?
+- Explain invoice INV2938.
+- Which shipment caused the additional charge?
+- When is my payment due?
+- Show my overdue invoices.
+- What was my total international shipping spend this month?
+
+FINANCE EXAMPLES:
+- Which customers have more than Rs. 10 lakh outstanding?
+- Which invoices are overdue by more than 30 days?
+- Which customer should we contact first?
+- Why did revenue decrease this month?
+- Show me high-risk invoices.
+- Show invoices with unusual charges.
+- Show shipments associated with invoice INV9283.
+
+IMPORTANT:
+The AI assistant should use application data through controlled backend
+tools/functions. Do not expose the entire database directly to an LLM.
+
+Recommended architecture:
+
+User question
+   ->
+AI intent detection
+   ->
+Controlled backend function
+   ->
+Database query
+   ->
+Structured result
+   ->
+AI explanation
+   ->
+UI response
+
+Possible backend tools:
+- get_invoice(invoice_id)
+- search_invoices(filters)
+- get_customer(customer_id)
+- get_customer_outstanding(customer_id)
+- get_payment_history(customer_id)
+- get_shipments_for_invoice(invoice_id)
+- get_revenue_summary(date_range)
+- get_overdue_invoices(filters)
+- get_collection_priorities()
+
+============================================================
+11. AI INVOICE DISPUTE PREVENTION
+============================================================
+
+Do not wait for the customer to dispute an invoice.
+
+Before invoice finalization:
+
+Shipment data
+    ->
+Rate/contract information
+    ->
+Charge calculation
+    ->
+Validation
+    ->
+Anomaly detection
+    ->
+Decision
+
+No anomaly:
+Generate invoice
+
+Anomaly:
+Review required
+
+Example:
+
+Potential Billing Issue
+
+Shipment: 1Z999...
+
+Contracted rate: Rs. 4,200
+Calculated rate: Rs. 5,760
+Difference: Rs. 1,560
+
+Reason:
+Additional handling charge detected.
+
+Action:
+Review before invoice generation.
+
+The system should record:
+- anomaly type
+- expected value
+- actual value
+- deviation
+- severity
+- explanation
+- status
+- reviewer
+- resolution
+
+============================================================
+12. UNEXPECTED CHARGE DETECTION
+============================================================
+
+Detect unusual billing behaviour.
+
+Examples:
+- Current charge significantly above historical average
+- Unexpected customs charge
+- Unexpected handling fee
+- Duplicate charge
+- Duplicate shipment reference
+- Abnormal discount
+- Incorrect tax
+- Rate mismatch
+
+Example:
+
+UNUSUAL CHARGE DETECTED
+
+Expected customs charge: Rs. 18,000
+Actual customs charge: Rs. 42,700
+Deviation: +137%
+
+Possible reasons:
+- Shipment classification changed
+- Additional brokerage charge
+- New customs service
+
+Use deterministic anomaly rules first.
+Optional ML model can be added later.
+
+============================================================
+13. PREDICTIVE FINAL COST
+============================================================
+
+Before final billing, estimate the expected shipment cost.
+
+Potential inputs:
+- Origin
+- Destination
+- Weight
+- Dimensions
+- Service type
+- Fuel surcharge
+- Customs
+- Additional services
+- Historical charges
+- Customer-specific billing patterns
+
+Example:
+
+Predicted final cost: Rs. 13,170
+Actual final cost: Rs. 13,420
+Variance: Rs. 250
+
+Possible ML approaches:
+- Linear Regression for simple baseline
+- Random Forest
+- Gradient Boosting
+- XGBoost if available and justified
+
+For the hackathon, a simple explainable model is preferable to an unnecessarily
+complex model.
+
+Show prediction factors where possible.
+
+============================================================
+14. PAYMENT RISK PREDICTION
+============================================================
+
+For unpaid invoices, calculate a payment risk score.
+
+Possible inputs:
+- Previous payment delays
+- Average payment delay
+- Outstanding amount
+- Invoice amount
+- Days until due date
+- Days overdue
+- Number of previous overdue invoices
+- Dispute frequency
+- Customer payment consistency
+
+Output:
+
+Payment Risk: HIGH
+Risk score: 87/100
+
+Reasons:
+- 4 previous late payments
+- Average delay: 28 days
+- Rs. 9.2L currently outstanding
+- Current invoice is 42% higher than average
+- Due date approaching
+
+Important:
+Show reasons. Do not provide only a black-box percentage.
+
+============================================================
+15. CUSTOMER BILLING HEALTH SCORE
+============================================================
+
+Every customer can receive a Billing Health Score from 0-100.
+
+Factors:
+- Payment reliability
+- Outstanding balance
+- Dispute frequency
+- Payment consistency
+- Invoice behaviour
+- Historical delays
+
+Example:
+
+ABC ENTERPRISE
+Billing Health: 82/100
+
+Payment reliability: 91
+Dispute frequency: 78
+Invoice consistency: 89
+Outstanding balance: 72
+Payment consistency: 80
+
+Classification:
+80-100 = Healthy
+60-79 = Moderate
+40-59 = Attention Required
+0-39 = High Risk
+
+The exact scoring formula should be documented in the code.
+
+============================================================
+16. COLLECTION PRIORITY ENGINE
+============================================================
+
+Finance teams should know which invoices/customers need attention first.
+
+Priority can consider:
+- Invoice value
+- Days overdue
+- Customer risk
+- Dispute probability
+- Outstanding balance
+- Payment history
+
+Example:
+
+PRIORITY 1
+Customer A
+Rs. 8.4L
+52 days overdue
+High risk
+
+Recommended:
+Immediate collection follow-up
+
+PRIORITY 2
+Customer B
+Rs. 5.2L
+31 days overdue
+Medium risk
+
+PRIORITY 3
+Customer C
+Rs. 2.1L
+5 days overdue
+Low risk
+
+Do not simply sort by invoice amount.
+
+============================================================
+17. DYNAMIC PAYMENT PLAN RECOMMENDATION
+============================================================
+
+For customers with large outstanding balances, recommend payment plans.
+
+Example:
+
+Outstanding:
+Rs. 12,00,000
+
+Suggested plan:
+Today: Rs. 4,00,000
+15 days: Rs. 4,00,000
+30 days: Rs. 4,00,000
+
+Factors:
+- Customer payment history
+- Outstanding amount
+- Previous delays
+- Invoice age
+- Risk score
+
+Finance user can approve or modify the recommendation.
+
+============================================================
+18. AI COLLECTION COMMUNICATION
+============================================================
+
+Generate personalized payment reminders.
+
+Types:
+- Upcoming due reminder
+- Due today
+- Recently overdue
+- Severely overdue
+
+Example:
+
+Upcoming:
+"Hi ABC Team, this is a friendly reminder that invoice INV123 is due
+tomorrow."
+
+Overdue:
+"Our records indicate that invoice INV123 has been outstanding for
+18 days. Please review the invoice and arrange payment at your earliest
+convenience."
+
+Allow:
+- Generate
+- Edit
+- Preview
+- Copy
+- Send through an API if configured
+
+Do not automatically send external communications without explicit user action.
+
+============================================================
+19. CROSS-BORDER COST INTELLIGENCE
+============================================================
+
+For international shipments, provide estimated cost components.
+
+Input:
+Origin: Chennai
+Destination: USA
+Product: Electronics
+Value: $2,000
+Weight: 8 kg
+
+Estimate:
+- Transportation
+- Fuel surcharge
+- Duties
+- Brokerage
+- Customs-related charges
+- Taxes where applicable
+
+Flag missing customs information.
+
+IMPORTANT:
+Use clearly marked demo/estimated values unless an authorized live rate/customs
+API is connected. Do not represent estimates as official UPS quotes.
+
+============================================================
+20. WHAT-IF FINANCE SIMULATOR
+============================================================
+
+This is a major optional differentiator.
+
+Finance user can ask:
+
+"What happens if we collect 80% of pending invoices this month?"
+
+System calculates:
+
+Current expected collection: Rs. 42.5L
+80% collection scenario: Rs. 56.8L
+Expected improvement: Rs. 14.3L
+High-risk invoices remaining: 7
+
+Other examples:
+- What if Customer A pays 15 days late?
+- What if overdue collection improves by 10%?
+- What if international shipment volume increases by 20%?
+
+The simulator should use deterministic calculations based on database data.
+
+============================================================
+21. REVENUE ANALYTICS
+============================================================
+
+Finance dashboard should support:
+
+Revenue by:
+- Month
+- Customer
+- Service
+- Route
+- Domestic/international
+- Shipment type
+
+Example:
+
+UPS Express: Rs. 42L
+UPS Standard: Rs. 28L
+International: Rs. 21L
+Freight: Rs. 17L
+
+Route analytics:
+
+Chennai -> USA
+Mumbai -> UK
+Delhi -> Germany
+Bangalore -> UAE
+
+Use charts with:
+- Actual revenue
+- Collections
+- Outstanding
+- Optional forecast
+
+============================================================
+22. RECOMMENDED APPLICATION PAGES
+============================================================
+
+PUBLIC:
+1. Landing page
+2. Login
+3. Optional registration/demo account page
+
+CUSTOMER:
+4. Customer Dashboard
+5. Invoice List
+6. Invoice Details
+7. Payment Page
+8. Payment Result
+9. Payment History
+10. Shipment Details
+11. Billing Insights
+12. AI Billing Assistant
+13. Profile/Settings
+
+FINANCE:
+14. Finance Dashboard
+15. All Invoices
+16. Invoice Review
+17. Customers
+18. Customer Details
+19. Collections
+20. Payment Reconciliation
+21. Anomaly/Dispute Prevention
+22. Revenue Analytics
+23. AI Finance Copilot
+24. What-If Simulator
+
+OPTIONAL:
+25. Admin/Configuration
+26. Audit Logs
+27. API Integration Status
+
+============================================================
+23. ROLE-BASED ACCESS CONTROL
+============================================================
+
+Roles:
+- CUSTOMER
+- FINANCE
+- ADMIN (optional)
+
+CUSTOMER:
+Can access only their own:
+- invoices
+- payments
+- shipments
+- billing insights
+
+FINANCE:
+Can access:
+- invoices
+- customers
+- collections
+- analytics
+- reconciliation
+- anomaly detection
+
+ADMIN:
+Can manage:
+- users
+- roles
+- system configuration
+- demo data
+- audit logs
+
+Never rely only on frontend route protection.
+Enforce authorization in backend APIs.
+
+============================================================
+24. DATABASE DESIGN
+============================================================
+
+Recommended PostgreSQL database.
+
+TABLE: users
+- id
+- name
+- email
+- password_hash
+- role
+- customer_id (nullable)
+- created_at
+- updated_at
+
+TABLE: customers
+- id
+- customer_code
+- company_name
+- contact_name
+- email
+- phone
+- billing_address
+- country
+- billing_health_score
+- created_at
+- updated_at
+
+TABLE: shipments
+- id
+- tracking_number
+- customer_id
+- origin
+- destination
+- shipment_date
+- delivery_date
+- service_type
+- weight
+- length
+- width
+- height
+- shipment_status
+- estimated_cost
+- actual_cost
+- created_at
+
+TABLE: invoices
+- id
+- invoice_number
+- customer_id
+- invoice_date
+- due_date
+- subtotal
+- fuel_surcharge
+- customs_amount
+- brokerage_amount
+- handling_amount
+- additional_charges
+- discount
+- tax
+- total_amount
+- paid_amount
+- outstanding_amount
+- status
+- created_at
+- updated_at
+
+TABLE: invoice_shipments
+- id
+- invoice_id
+- shipment_id
+
+TABLE: invoice_line_items
+- id
+- invoice_id
+- description
+- category
+- quantity
+- unit_price
+- amount
+
+TABLE: payments
+- id
+- invoice_id
+- customer_id
+- amount
+- payment_method
+- transaction_reference
+- status
+- paid_at
+- created_at
+
+TABLE: payment_reconciliations
+- id
+- payment_id
+- invoice_id
+- confidence_score
+- match_reason
+- status
+- reviewed_by
+- reviewed_at
+
+TABLE: billing_anomalies
+- id
+- invoice_id
+- shipment_id
+- anomaly_type
+- expected_value
+- actual_value
+- deviation
+- severity
+- explanation
+- status
+- created_at
+- resolved_at
+
+TABLE: payment_risk_predictions
+- id
+- invoice_id
+- risk_score
+- risk_level
+- factors_json
+- model_version
+- created_at
+
+TABLE: billing_health_scores
+- id
+- customer_id
+- score
+- payment_reliability
+- dispute_score
+- outstanding_score
+- consistency_score
+- created_at
+
+TABLE: audit_logs
+- id
+- user_id
+- action
+- entity_type
+- entity_id
+- metadata_json
+- created_at
+
+============================================================
+25. BACKEND API DESIGN
+============================================================
+
+AUTH:
+POST /api/auth/login
+POST /api/auth/register
+GET  /api/auth/me
+
+CUSTOMER:
+GET /api/customer/dashboard
+GET /api/customer/invoices
+GET /api/customer/invoices/:id
+GET /api/customer/invoices/:id/pdf
+GET /api/customer/shipments
+GET /api/customer/shipments/:id
+GET /api/customer/payments
+
+PAYMENTS:
+POST /api/payments/create
+POST /api/payments/confirm
+GET /api/payments/:id
+GET /api/payments/history
+
+FINANCE:
+GET /api/finance/dashboard
+GET /api/finance/invoices
+GET /api/finance/customers
+GET /api/finance/customers/:id
+GET /api/finance/collections
+GET /api/finance/revenue
+GET /api/finance/reconciliation
+POST /api/finance/reconciliation/:id/approve
+POST /api/finance/reconciliation/:id/reject
+
+ANALYTICS:
+GET /api/analytics/revenue
+GET /api/analytics/collections
+GET /api/analytics/routes
+GET /api/analytics/services
+
+AI:
+POST /api/ai/explain-invoice
+POST /api/ai/billing-chat
+POST /api/ai/finance-chat
+GET  /api/ai/payment-risk/:invoiceId
+GET  /api/ai/billing-health/:customerId
+GET  /api/ai/collection-priority
+POST /api/ai/what-if
+
+ANOMALIES:
+GET /api/anomalies
+GET /api/anomalies/:id
+POST /api/anomalies/:id/resolve
+
+============================================================
+26. FRONTEND TECHNOLOGY
+============================================================
+
+Recommended:
+- React
+- Vite
+- Tailwind CSS
+- React Router
+- Axios or fetch
+- Recharts
+- React Hook Form if useful
+
+UI goals:
+- Professional enterprise design
+- Clean logistics/finance dashboard
+- Responsive
+- Mobile-friendly
+- Accessible
+- Clear status indicators
+- Good empty/loading/error states
+
+Avoid:
+- Excessive animations
+- Clutter
+- Fake functionality
+- Too many unnecessary pages
+- Generic "AI everywhere" UI
+
+Suggested visual hierarchy:
+- Dashboard KPIs
+- Important alerts
+- Charts
+- Tables
+- Actions
+- AI insights
+
+============================================================
+27. BACKEND TECHNOLOGY
+============================================================
+
+Recommended option A:
+Node.js
+Express
+PostgreSQL
+
+Recommended option B:
+Python
+FastAPI
+PostgreSQL
+
+If AI/ML is a major component, Python + FastAPI is a strong option.
+
+Possible architecture:
+
+React
+  ->
+REST API
+  ->
+Business Logic
+  ->
+PostgreSQL
+
+AI service:
+Python ML/LLM service
+  ->
+Backend-controlled AI endpoints
+
+Do not allow the frontend to call an LLM provider directly with secrets.
+
+============================================================
+28. AI / ML IMPLEMENTATION STRATEGY
+============================================================
+
+IMPORTANT:
+Do not over-engineer AI.
+
+Implement a reliable baseline first.
+
+PHASE 1:
+Rule-based intelligence:
+- Payment risk rules
+- Billing anomaly rules
+- Collection priority score
+- Billing health score
+
+PHASE 2:
+ML:
+- Payment risk prediction
+- Cost prediction
+- Anomaly detection
+
+PHASE 3:
+Generative AI:
+- Explain My Bill
+- Billing assistant
+- Finance Copilot
+- Personalized collection messages
+
+This layered approach ensures the application works even if an AI API fails.
+
+============================================================
+29. AI MODEL FEATURES
+============================================================
+
+PAYMENT RISK:
+Input:
+- historical delay
+- outstanding
+- invoice amount
+- days overdue
+- payment frequency
+- dispute frequency
+
+Output:
+- score
+- risk level
+- top reasons
+
+COST PREDICTION:
+Input:
+- origin
+- destination
+- weight
+- dimensions
+- service
+- historical charges
+
+Output:
+- predicted cost
+- confidence/variance
+
+ANOMALY DETECTION:
+Input:
+- historical invoice values
+- charge categories
+- shipment data
+- contracted rates
+
+Output:
+- anomaly score
+- anomaly type
+- explanation
+
+For demo data, ensure there are enough examples for meaningful results.
+
+============================================================
+30. SECURITY REQUIREMENTS
+============================================================
+
+Implement:
+- Password hashing
+- JWT/session authentication
+- Role-based authorization
+- Input validation
+- Backend authorization
+- Parameterized queries/ORM
+- Rate limiting where appropriate
+- CORS configuration
+- Secure environment variables
+- Audit logs
+
+Never:
+- Commit API keys
+- Commit database passwords
+- Store plain text passwords
+- Store real payment card information
+- Expose secrets in frontend code
+- Trust role information sent only by the frontend
+
+Use .env:
+
+DATABASE_URL=
+JWT_SECRET=
+AI_API_KEY=
+PAYMENT_API_KEY=
+
+Provide .env.example with empty placeholders.
+
+============================================================
+31. DEMO DATA
+============================================================
+
+Create realistic seeded data.
+
+At minimum:
+- 10-20 customers
+- 50+ shipments
+- 50+ invoices
+- 30+ payments
+- Multiple overdue invoices
+- Multiple partially paid invoices
+- Some high-risk customers
+- Some anomalous invoices
+- Domestic shipments
+- International shipments
+- Multiple service types
+- Multiple months of historical data
+
+Create realistic relationships:
+Customer -> Shipments -> Invoice -> Payments
+
+Ensure dashboard numbers are calculated from the same database records.
+
+============================================================
+32. DEMO SCENARIO
+============================================================
+
+Prepare a strong interview/hackathon demo.
+
+CUSTOMER FLOW:
+
+1. Login as customer.
+2. Show dashboard.
+3. Open invoice.
+4. Show shipment-level billing breakdown.
+5. Click "Explain My Bill".
+6. Show AI explanation.
+7. Make a demo payment.
+8. Show updated invoice status.
+9. Show payment history.
+
+FINANCE FLOW:
+
+1. Login as finance user.
+2. Show dashboard.
+3. Show overdue amount.
+4. Open collection priority.
+5. Show high-risk customer.
+6. Open suspicious invoice.
+7. Show anomaly.
+8. Show payment reconciliation.
+9. Ask Finance Copilot:
+   "Which customers have the highest overdue amount?"
+10. Use What-If simulator:
+   "What happens if we collect 80% of pending invoices?"
+
+============================================================
+33. MAIN DIFFERENTIATORS
+============================================================
+
+Do not present all features as equally important.
+
+Primary differentiators:
+
+1. Shipment-to-Invoice Intelligence
+2. Explain My Bill
+3. Invoice Dispute Prevention
+4. Predictive Final Cost
+5. Collection Priority Engine
+6. Payment Reconciliation
+7. Finance Copilot
+8. What-If Finance Simulator
+
+The project is strongest when these features work together.
+
+============================================================
+34. RECOMMENDED MVP
+============================================================
+
+If development time is limited, build in this order.
+
+MUST HAVE:
+1. Authentication
+2. Customer dashboard
+3. Invoice list
+4. Invoice details
+5. Search/filter
+6. PDF generation
+7. Payment flow
+8. Payment history
+9. Finance dashboard
+10. Revenue charts
+11. Overdue tracking
+12. Shipment-to-invoice mapping
+
+NEXT:
+13. Payment reconciliation
+14. Explain My Bill
+15. Collection priority
+16. Billing anomaly detection
+
+THEN:
+17. Payment risk prediction
+18. AI Billing Assistant
+19. AI Finance Copilot
+20. What-If simulator
+21. Predictive final cost
+
+Do not sacrifice mandatory features to implement advanced AI.
+
+============================================================
+35. PROJECT FOLDER STRUCTURE
+============================================================
+
+Recommended monorepo:
+
+ups-smart-billing/
+|
++-- frontend/
+|   +-- src/
+|       +-- components/
+|       +-- pages/
+|       +-- layouts/
+|       +-- hooks/
+|       +-- services/
+|       +-- context/
+|       +-- utils/
+|       +-- charts/
+|       +-- types/
+|
++-- backend/
+|   +-- src/
+|       +-- controllers/
+|       +-- routes/
+|       +-- services/
+|       +-- middleware/
+|       +-- models/
+|       +-- repositories/
+|       +-- utils/
+|       +-- validators/
+|       +-- ai/
+|       +-- analytics/
+|       +-- reconciliation/
+|       +-- pdf/
+|       +-- database/
+|
++-- ml/ (optional)
+|   +-- models/
+|   +-- training/
+|   +-- inference/
+|   +-- notebooks/
+|
++-- docs/
+|
++-- .env.example
++-- README.md
++-- package.json
+
+Keep the structure modular and understandable.
+
+============================================================
+36. ERROR HANDLING
+============================================================
+
+Every important operation must have:
+- Loading state
+- Success state
+- Error state
+- Empty state
+
+Examples:
+- Payment failed
+- Invoice not found
+- PDF generation failed
+- AI unavailable
+- Database unavailable
+- Invalid search
+- Unauthorized access
+- Reconciliation failed
+
+If AI is unavailable:
+Show:
+"AI insights are temporarily unavailable. Core billing functionality remains
+available."
+
+Do not crash the application.
+
+============================================================
+37. API INTEGRATIONS
+============================================================
+
+Potential integrations:
+- Payment gateway sandbox
+- LLM API
+- Maps/geocoding API if shipment visualization is added
+- Email API
+- Cloud storage for PDFs if needed
+
+For hackathon development, APIs may be mocked if credentials are unavailable.
+
+Use interfaces/services so mocked APIs can later be replaced with real APIs.
+
+IMPORTANT:
+Do not imply that a mocked API is an official UPS API.
+
+============================================================
+38. OPTIONAL LOGISTICS MAP
+============================================================
+
+Optional feature:
+Show shipment routes on a map.
+
+Example:
+Chennai -> Dubai -> London
+
+Display:
+- Origin
+- Destination
+- Shipment status
+- Estimated cost
+- Invoice association
+
+This should be optional and should not delay completion of core billing.
+
+============================================================
+39. AUDITABILITY
+============================================================
+
+Important financial actions should be logged.
+
+Examples:
+- Invoice created
+- Invoice modified
+- Payment created
+- Payment confirmed
+- Reconciliation approved
+- Anomaly resolved
+- Payment plan approved
+- User login
+- Role-sensitive action
+
+Audit log:
+User
+Action
+Entity
+Timestamp
+Metadata
+
+============================================================
+40. BUSINESS VALUE
+============================================================
+
+The system should solve four major problems:
+
+1. BILLING TRANSPARENCY
+Customers can understand exactly what they are paying for.
+
+2. DISPUTE REDUCTION
+Potential billing issues are identified before finalization.
+
+3. FASTER COLLECTIONS
+Finance teams know which invoices/customers deserve attention first.
+
+4. PREDICTIVE DECISION MAKING
+The system predicts costs, risks and collection scenarios rather than only
+reporting historical information.
+
+============================================================
+41. UNIQUE VALUE PROPOSITION
+============================================================
+
+Core USP:
+
+"Traditional billing tells you what has already happened. Our solution is
+proactive: it connects shipments to invoices, predicts expected costs,
+explains billing changes, detects potential disputes before invoices are
+finalized, prioritizes collections and gives finance teams an AI copilot for
+billing decisions."
+
+Short version:
+
+"From reactive billing to predictive billing intelligence."
+
+============================================================
+42. INTERVIEW EXPLANATION
+============================================================
+
+If asked:
+"What did you build?"
+
+Answer:
+
+"We built a Smart Billing and Payment Portal for a logistics environment.
+Customers can manage invoices, payments and shipment-level billing details,
+while finance teams get collection and revenue analytics. Instead of stopping
+at basic invoice management, we added an intelligence layer that explains
+billing changes, detects potential billing anomalies, predicts payment and
+cost risks, prioritizes collections and provides a billing-focused AI
+copilot."
+
+============================================================
+43. IF ASKED WHY AI?
+============================================================
+
+Answer:
+
+"AI isn't being used just to make the application look intelligent. The core
+billing system works with normal business logic. We use AI where it adds
+value, such as explaining complex billing changes, identifying potential
+disputes, predicting payment risk and allowing finance users to query their
+billing data naturally."
+
+============================================================
+44. IF ASKED WHAT IS UNIQUE?
+============================================================
+
+Answer:
+
+"Most billing systems are reactive: they show invoices and payment status
+after the transaction has happened. Our solution adds a predictive layer. It
+connects shipment activity with billing, explains why charges changed,
+identifies anomalies before invoices are finalized and recommends which
+collections finance teams should prioritize."
+
+============================================================
+45. IF ASKED WHY UPS?
+============================================================
+
+Answer:
+
+"UPS operates in a complex logistics environment where shipments generate
+multiple billing components such as transportation, fuel-related charges,
+customs and additional services. That makes billing transparency,
+reconciliation, prediction and dispute prevention valuable areas to solve.
+Our design therefore connects shipment intelligence directly with financial
+billing rather than treating invoices as isolated documents."
+
+Do not claim knowledge of UPS's internal systems. Position the solution as a
+hackathon prototype inspired by logistics billing workflows.
+
+============================================================
+46. DEMO STORY
+============================================================
+
+The strongest demonstration should tell a story.
+
+START:
+
+A customer has received a higher invoice than last month.
+
+STEP 1:
+Customer opens invoice.
+
+STEP 2:
+System shows all shipments contributing to the invoice.
+
+STEP 3:
+Customer clicks:
+"Explain My Bill"
+
+STEP 4:
+AI explains that shipment volume, fuel-related charges and customs-related
+charges caused the increase.
+
+STEP 5:
+System detects an unusual customs charge.
+
+STEP 6:
+Customer can investigate the related shipment.
+
+STEP 7:
+Customer pays the invoice.
+
+STEP 8:
+Finance dashboard updates.
+
+STEP 9:
+Finance sees the payment reconciled automatically.
+
+STEP 10:
+Finance Copilot identifies another customer with a high collection risk.
+
+STEP 11:
+Collection Priority Engine recommends contacting that customer first.
+
+STEP 12:
+What-If simulator shows the financial impact if 80% of pending invoices
+are collected.
+
+This creates one continuous story:
+SHIPMENT -> BILL -> INSIGHT -> PAYMENT -> RECONCILIATION -> COLLECTION
+
+============================================================
+47. DEVELOPMENT PRINCIPLES FOR CLAUDE
+============================================================
+
+When generating the project:
+
+1. Build the application incrementally.
+2. Do not create placeholder buttons that do nothing.
+3. Every visible major action should work.
+4. Use seeded data so the dashboard looks realistic.
+5. Keep backend and frontend clearly separated.
+6. Use PostgreSQL or another relational database.
+7. Use proper database relationships.
+8. Validate every API input.
+9. Enforce authorization on the backend.
+10. Keep AI provider keys server-side.
+11. Make AI features modular.
+12. Provide fallback behaviour when AI is unavailable.
+13. Add clear error handling.
+14. Add loading states.
+15. Add responsive design.
+16. Keep components reusable.
+17. Keep calculations in backend/business logic rather than duplicating them
+    in the frontend.
+18. Do not hardcode dashboard totals.
+19. Generate invoice PDFs dynamically.
+20. Use realistic demo data.
+21. Include setup instructions.
+22. Include database migration/seed instructions.
+23. Include .env.example.
+24. Include API documentation.
+25. Include test instructions.
+26. Include deployment instructions.
+27. Do not use real UPS customer/payment information.
+28. Clearly identify simulated data and sandbox payments.
+
+============================================================
+48. TESTING REQUIREMENTS
+============================================================
+
+Test:
+- Login
+- Role authorization
+- Invoice retrieval
+- Search
+- Filters
+- Invoice PDF
+- Payment success
+- Payment failure
+- Payment history
+- Overdue calculation
+- Revenue calculation
+- Reconciliation
+- Anomaly detection
+- Risk scoring
+- AI fallback
+- Unauthorized access
+- Invalid input
+
+Important business rule tests:
+
+A paid invoice should have:
+paid_amount >= total_amount
+and status = PAID.
+
+An overdue invoice should satisfy:
+current date > due date
+and outstanding_amount > 0.
+
+A partially paid invoice should satisfy:
+paid_amount > 0
+and outstanding_amount > 0.
+
+Dashboard totals must be derived from invoice/payment records.
+
+============================================================
+49. PERFORMANCE AND QUALITY
+============================================================
+
+Use:
+- Pagination for invoice lists
+- Database indexes for frequently searched fields
+- Server-side filtering
+- Efficient aggregation queries
+- Caching where useful
+- Lazy loading for large frontend modules
+
+Recommended database indexes:
+- invoice_number
+- customer_id
+- due_date
+- status
+- tracking_number
+- payment transaction reference
+
+============================================================
+50. DEPLOYMENT
+============================================================
+
+Possible architecture:
+
+Frontend:
+Vercel / equivalent
+
+Backend:
+Render / Railway / AWS / equivalent
+
+Database:
+Managed PostgreSQL
+
+AI:
+Server-side API integration
+
+Storage:
+Cloud object storage if needed for generated documents
+
+Provide:
+- production environment variables
+- CORS configuration
+- database migration
+- seed process
+- build commands
+- deployment instructions
+
+============================================================
+51. README REQUIREMENTS FOR THE GENERATED PROJECT
+============================================================
+
+The final generated project README must include:
+
+- Project overview
+- Problem statement
+- Features
+- Architecture
+- Tech stack
+- Database schema
+- API endpoints
+- AI features
+- Setup instructions
+- Environment variables
+- Database setup
+- Seed instructions
+- Running frontend
+- Running backend
+- Running ML service if applicable
+- Test instructions
+- Deployment
+- Demo accounts
+- Known limitations
+- Future improvements
+
+============================================================
+52. FUTURE ENHANCEMENTS
+============================================================
+
+Possible future features:
+
+- Real-time shipment tracking integration
+- Official logistics APIs where authorized
+- Real-time rate calculation
+- Advanced customs APIs
+- Multi-currency billing
+- Multi-language support
+- Mobile application
+- Automated email workflows
+- Advanced ML forecasting
+- Enterprise ERP integration
+- Accounting software integration
+- Advanced fraud detection
+- Contract management
+- Digital signatures
+- Automated collections workflow
+
+============================================================
+53. FINAL FEATURE PRIORITY
+============================================================
+
+P0 - REQUIRED:
+- Authentication
+- Customer portal
+- Invoice management
+- Search/filter
+- PDF invoice
+- Payments
+- Payment history
+- Finance dashboard
+- Invoice status
+- Collection summary
+- Revenue trend
+
+P1 - HIGH VALUE:
+- Shipment-to-invoice mapping
+- Payment reconciliation
+- Explain My Bill
+- Collection priority
+- Billing anomaly detection
+
+P2 - DIFFERENTIATION:
+- Payment risk prediction
+- Predictive final cost
+- Billing health score
+- AI Finance Copilot
+- AI Billing Assistant
+
+P3 - WOW FACTOR:
+- What-If Finance Simulator
+- Dynamic payment plan recommendation
+- AI collection communication
+- Cross-border cost intelligence
+
+============================================================
+54. FINAL ARCHITECTURE
+============================================================
+
+                       SMART UPS BILLING
+                              |
+               +--------------+--------------+
+               |                             |
+           CUSTOMER                       FINANCE
+               |                             |
+        +------+-------+              +------+-------+
+        |              |              |              |
+     Invoices       Payments      Dashboard     Collections
+        |              |              |              |
+        +------+-------+--------------+--------------+
+                       |
+                CORE BILLING ENGINE
+                       |
+        +--------------+--------------+
+        |              |              |
+     Shipments      Invoices       Payments
+        |              |              |
+        +--------------+--------------+
+                       |
+                 INTELLIGENCE LAYER
+                       |
+      +----------------+----------------+
+      |                |                |
+ Cost Prediction   Anomaly Detection   Risk
+      |                |                |
+      +----------------+----------------+
+                       |
+               GENERATIVE AI LAYER
+                       |
+          +------------+-------------+
+          |                          |
+      Explain My Bill          Finance Copilot
+          |                          |
+          +------------+-------------+
+                       |
+                DECISION SUPPORT
+                       |
+       Collection Priority / What-If
+                       |
+                  Finance Team
+
+============================================================
+55. FINAL INSTRUCTION TO THE AI DEVELOPMENT AGENT
+============================================================
+
+Build this as a production-style hackathon prototype.
+
+Do not merely generate static frontend screens.
+
+Implement:
+- Working frontend
+- Working backend
+- Database
+- Authentication
+- Role-based authorization
+- Invoice CRUD/management
+- Search/filter
+- PDF generation
+- Payment flow
+- Payment history
+- Finance dashboard
+- Analytics
+- Shipment-to-invoice relationships
+- Reconciliation
+- Billing anomaly detection
+- Explain My Bill
+- Collection priority
+- AI features where configured
+- AI fallback
+- Seed/demo data
+- Error handling
+- Validation
+- Tests
+- Documentation
+
+Start with the P0 core features and make them fully functional.
+
+Then implement P1 features.
+
+Then implement P2/P3 AI features.
+
+The final product should demonstrate this complete business journey:
+
+SHIPMENT
+  ->
+BILLING
+  ->
+INVOICE
+  ->
+CUSTOMER UNDERSTANDS BILL
+  ->
+PAYMENT
+  ->
+RECONCILIATION
+  ->
+FINANCE ANALYTICS
+  ->
+RISK / ANOMALY DETECTION
+  ->
+COLLECTION PRIORITIZATION
+  ->
+PREDICTIVE DECISION MAKING
+
+The final project should be polished enough for a company interview/demo and
+should clearly communicate the core idea:
+
+"FROM REACTIVE BILLING TO PREDICTIVE BILLING INTELLIGENCE."
+
+END OF SPECIFICATION
