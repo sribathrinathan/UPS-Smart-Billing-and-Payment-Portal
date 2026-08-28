@@ -39,8 +39,8 @@ An enterprise-grade, AI-driven billing and payment reconciliation platform desig
 - **AI/ML Engine**: Groq API (LLaMA/Qwen open-source models)
 
 ## 🔑 Demo Credentials
-- **Finance Admin:** `finance@ups.com` | Password: `SecureUpsPassword2026!`
-- **Customer (ABC Tech):** `abc@example.com` | Password: `SecureUpsPassword2026!`
+- **Finance Admin:** `finance@ups.com` | Password: `password123`
+- **Customer (ABC Tech):** `abc@example.com` | Password: `password123`
 
 ---
 *Built to accelerate revenue collection and modernize the logistics billing experience.*

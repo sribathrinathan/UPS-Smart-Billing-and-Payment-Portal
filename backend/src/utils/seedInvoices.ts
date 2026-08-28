@@ -141,7 +141,7 @@ export async function seedDummyCustomers() {
       await prisma.user.create({
         data: {
           email: company.email,
-          passwordHash: await bcrypt.hash('dummy', 10),
+          passwordHash: await bcrypt.hash('password123', 10),
           role: 'CUSTOMER',
           name: company.name,
           customerId: customer.id

@@ -56,11 +56,11 @@ hyper-personalized experience for both logistics customers and finance teams.
 --------------------------------------------------------------------------------
 * Finance Admin Account:
   Email: finance@ups.com
-  Password: SecureUpsPassword2026!
+  Password: password123
 
 * Customer Account (ABC Tech):
   Email: abc@example.com
-  Password: SecureUpsPassword2026!
+  Password: password123
 
 --------------------------------------------------------------------------------
 4. HOW TO RUN LOCALLY
