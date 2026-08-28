@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
-import { Activity, LogOut, TrendingUp, AlertTriangle, CheckCircle, ShieldAlert, Zap, AlertOctagon, Info } from 'lucide-react';
+import { Activity, LogOut, TrendingUp, AlertTriangle, CheckCircle, ShieldAlert, AlertOctagon, Info } from 'lucide-react';
 import clsx from 'clsx';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line, CartesianGrid } from 'recharts';
 import { formatDistanceToNow } from 'date-fns';
@@ -13,8 +13,6 @@ export default function FinanceDashboard() {
   const navigate = useNavigate();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [simulatorPct, setSimulatorPct] = useState(80);
-  const [simulationResult, setSimulationResult] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
@@ -40,15 +38,6 @@ export default function FinanceDashboard() {
   const handleLogout = () => {
     logout();
     navigate('/');
-  };
-
-  const runSimulator = async () => {
-    try {
-      const res = await api.post('/finance/what-if', { collectionPercentage: simulatorPct });
-      setSimulationResult(res.data);
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   if (loading || !data) {
@@ -126,7 +115,7 @@ export default function FinanceDashboard() {
                 <BarChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} tickFormatter={(value) => `$${value/1000}k`} />
-                  <Tooltip cursor={{ fill: '#f3f4f6' }} formatter={(value: number) => `$${value.toLocaleString()}`} />
+                  <Tooltip cursor={{ fill: '#f3f4f6' }} formatter={(value: any) => `$${value.toLocaleString()}`} />
                   <Bar dataKey="amount" fill="#FFB500" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -152,7 +141,7 @@ export default function FinanceDashboard() {
                   <Tooltip 
                     contentStyle={{ backgroundColor: '#331a12', border: '1px solid #FFB500', borderRadius: '8px', color: '#fff' }}
                     itemStyle={{ color: '#FFB500', fontWeight: 'bold' }}
-                    formatter={(value: number) => [`$${value.toLocaleString()}`, 'Expected Cash']}
+                    formatter={(value: any) => [`$${value.toLocaleString()}`, 'Expected Cash']}
                   />
                   <Line type="monotone" dataKey="expectedCash" stroke="#FFB500" strokeWidth={4} dot={{ r: 4, fill: '#FFB500', strokeWidth: 0 }} activeDot={{ r: 6, fill: '#fff', stroke: '#FFB500', strokeWidth: 2 }} />
                 </LineChart>

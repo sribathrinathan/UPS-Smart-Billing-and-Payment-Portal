@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import api from '../api';
 import { ArrowLeft, CheckCircle, XCircle, BrainCircuit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

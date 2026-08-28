@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import CustomerDashboard from './pages/CustomerDashboard';
@@ -12,7 +11,7 @@ import { useAuth } from './context/AuthContext';
 
 import Register from './pages/Register';
 
-function PrivateRoute({ children, role, allowedRoles }: { children: JSX.Element, role?: string, allowedRoles?: string[] }) {
+const PrivateRoute = ({ children, role, allowedRoles }: { children: React.ReactNode, role?: string, allowedRoles?: string[] }) => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/" />;
   

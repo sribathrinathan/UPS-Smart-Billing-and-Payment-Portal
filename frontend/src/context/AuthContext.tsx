@@ -6,6 +6,7 @@ type User = {
   email: string;
   role: 'CUSTOMER' | 'FINANCE';
   customer?: any;
+  customerId?: string;
 };
 
 type AuthContextType = {
