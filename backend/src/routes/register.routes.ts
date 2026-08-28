@@ -32,10 +32,7 @@ router.post('/initiate', async (req, res) => {
     const existing = await prisma.user.findUnique({ where: { email } });
     if (existing) {
       return res.status(400).json({ error: 'Email is already registered' });
-    }
-
-    // Hackathon bypass: always use 123456 so presentation doesn't break if Gmail blocks Render's IP
-    const otp = '123456';
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const expires = Date.now() + 10 * 60 * 1000; // 10 minutes
 
     otpStore.set(email, { otp, data: { name, companyName, email, password, role: role || 'CUSTOMER' }, expires });
@@ -56,8 +53,8 @@ router.post('/initiate', async (req, res) => {
     };
 
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      transporter.sendMail(mailOptions).catch(err => console.error("Email send failed:", err)); // Don't await, prevents hanging
-      console.log(`[REAL EMAIL INITIATED TO ${email}] OTP: ${otp}`);
+      await transporter.sendMail(mailOptions);
+      console.log(`[REAL EMAIL SENT TO ${email}] OTP: ${otp}`);
     } else {
       console.log(`[MOCK EMAIL SENT TO ${email}] OTP: ${otp}`);
     }
