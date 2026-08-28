@@ -42,7 +42,9 @@ router.post('/initiate', async (req, res) => {
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-      }
+      },
+      connectionTimeout: 10000, // 10 second timeout so it doesn't hang forever
+      socketTimeout: 10000
     });
 
     const mailOptions = {
@@ -53,8 +55,8 @@ router.post('/initiate', async (req, res) => {
     };
 
     if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-      await transporter.sendMail(mailOptions);
-      console.log(`[REAL EMAIL SENT TO ${email}] OTP: ${otp}`);
+      transporter.sendMail(mailOptions).catch(err => console.error("Email send failed:", err));
+      console.log(`[REAL EMAIL INITIATED TO ${email}] OTP: ${otp}`);
     } else {
       console.log(`[MOCK EMAIL SENT TO ${email}] OTP: ${otp}`);
     }

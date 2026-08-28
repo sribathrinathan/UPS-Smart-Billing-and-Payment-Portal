@@ -1,0 +1,27 @@
+UPS SMART BILLING & PAYMENT PORTAL
+--- DESIGN THINKING FRAMEWORK ---
+
+If the judges ask about your "Design Thinking" process, walk them through these 5 phases. This proves you didn't just write code, but actually solved a human-centric business problem.
+
+1. EMPATHIZE (Understanding the User's Pain)
+- The Persona: Small-to-Medium Business (SMB) Owners and UPS Finance Teams.
+- The Pain Point (SMB): "I want to pay my UPS freight bill, but I had a slow month. If I can't pay the full $12,000, I just ignore the email out of anxiety. Next thing I know, I'm hit with late fees and my account is suspended."
+- The Pain Point (UPS Finance): "We spend hundreds of hours manually calling customers to collect overdue invoices. Our standard automated emails ('Pay Now') have a terrible success rate."
+
+2. DEFINE (Stating the Core Problem)
+- The core problem isn't that customers don't want to pay; it's that standard B2B billing portals are completely inflexible. They offer a binary choice: Pay in Full or Default. 
+- Problem Statement: "How might we create a billing experience that proactively assists struggling customers in paying their invoices, thereby reducing bad debt for UPS while maintaining customer loyalty?"
+
+3. IDEATE (Brainstorming the Solution)
+- Idea 1: Add a "Request Extension" button. (Too manual, requires UPS staff to approve).
+- Idea 2: Add standard installment options. (Too rigid, doesn't account for the customer's specific risk level).
+- The Winning Idea: An AI-Driven Collections Agent. Use Generative AI to analyze the customer's history and dynamically negotiate a personalized payment plan in real-time, removing the friction and the human bottleneck.
+
+4. PROTOTYPE (Building the Solution)
+- We built a decoupled React + Node.js portal.
+- For the Customer: A clean, stress-free dashboard highlighting overdue invoices with an integrated "AI Assistant" button that offers immediate, empathetic help.
+- For UPS Finance: A powerful command center that uses Predictive Risk Scoring (e.g., "95% Risk of Default") to flag which invoices the AI needs to proactively target.
+
+5. TEST (Validating the Output)
+- We tested the GenAI prompts to ensure strict guardrails (no hallucination). 
+- We validated that the AI successfully parses a $12,000 invoice and intelligently offers a realistic $4,000/month split based on the customer's risk profile, fully solving the problem defined in Phase 2.
